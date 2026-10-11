@@ -1,8 +1,8 @@
 ---
-description: "Перевірити Git-репозиторій і підготувати мінімальний .gitignore для Rust-збірки"
-agent: "build-engineer"
+name: git-init
+description: Перевірити Git-репозиторій і підготувати мінімальний .gitignore для Rust-збірки
+disable-model-invocation: true
 ---
-
 # git-init
 
 ## Призначення

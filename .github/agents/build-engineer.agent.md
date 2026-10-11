@@ -40,7 +40,7 @@ tools: ['edit', 'search', 'runCommands', 'problems', 'changes']
 | `project-scaffold` | `.github/skills/project-scaffold/SKILL.md` |
 | `build-and-test` | `.github/skills/build-and-test/SKILL.md` |
 | `github-actions` | `.github/skills/github-actions/SKILL.md` |
-| `git-init`, `create-project`, `create-build`, `create-actions`, `check`, `init` | `.github/prompts/*.prompt.md` |
+| `git-init`, `create-project`, `create-build`, `create-actions`, `check`, `init` | `.github/skills/<command>/SKILL.md` |
 
 ## Правила роботи з файлами
 

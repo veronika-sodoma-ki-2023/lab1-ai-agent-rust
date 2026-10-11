@@ -34,16 +34,27 @@ lab1-ai-agent-rust/
 ├── .github/
 │   ├── agents/
 │   │   └── build-engineer.agent.md
-│   ├── prompts/
-│   │   └── (commands створюються агентом)
 │   └── skills/
+│       ├── git-init/
+│       │   └── SKILL.md
+│       ├── create-project/
+│       │   └── SKILL.md
+│       ├── create-build/
+│       │   └── SKILL.md
+│       ├── create-actions/
+│       │   └── SKILL.md
+│       ├── check/
+│       │   └── SKILL.md
+│       ├── init/
+│       │   └── SKILL.md
 │       ├── project-scaffold/
-│       │   └── (SKILL.md створюється агентом)
+│       │   └── SKILL.md
 │       ├── build-and-test/
-│       │   └── (SKILL.md створюється агентом)
+│       │   └── SKILL.md
 │       └── github-actions/
-│           └── (SKILL.md створюється агентом)
+│           └── SKILL.md
 └── docs/
     ├── architecture.md
+    ├── usage.md
     └── ai-log.md
 ```

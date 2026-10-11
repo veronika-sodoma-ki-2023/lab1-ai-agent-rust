@@ -1,8 +1,8 @@
 ---
-description: "Підготувати release-збірку, BasicAddition і локальні CI-скрипти"
-agent: "build-engineer"
+name: create-build
+description: Підготувати release-збірку, BasicAddition і локальні CI-скрипти
+disable-model-invocation: true
 ---
-
 # create-build
 
 ## Призначення

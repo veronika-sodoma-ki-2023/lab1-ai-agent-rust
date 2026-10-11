@@ -1,8 +1,8 @@
 ---
-description: "Перевірити повноту Rust-проєкту, CI та документації без виправлення помилок"
-agent: "build-engineer"
+name: check
+description: Перевірити повноту Rust-проєкту, CI та документації без виправлення помилок
+disable-model-invocation: true
 ---
-
 # check
 
 ## Призначення
@@ -24,8 +24,9 @@ agent: "build-engineer"
    `Роль`, `Заборонені дії`, `Критерії успішного завершення`.
 2. Для кожного `.github/skills/*/SKILL.md` перевірити секції `Призначення`,
    `Вхідні дані`, `Результати`, `Перевірки`.
-3. Перевірити всі шість prompt-файлів і порядок команд у
-   `.github/prompts/init.prompt.md`.
+3. Перевірити всі шість command-skills за шляхами
+   `.github/skills/<command>/SKILL.md` і порядок команд у
+   `.github/skills/init/SKILL.md`.
 4. Перевірити існування `Cargo.toml`, `src/lib.rs`, `src/main.rs`,
    `tests/basic_addition.rs`, `ci.sh`, `ci.bat`, `.github/workflows/ci.yml`.
 5. Валідовати YAML, три ОС і відсутність прямого `cargo` у `ci.yml`.
@@ -50,7 +51,7 @@ agent: "build-engineer"
 ```text
 Test-Path .github/agents/build-engineer.agent.md
 Get-ChildItem .github/skills/*/SKILL.md
-Get-ChildItem .github/prompts/*.prompt.md
+Get-ChildItem .github/skills/*/SKILL.md
 Test-Path Cargo.toml; Test-Path src/lib.rs; Test-Path src/main.rs
 Test-Path tests/basic_addition.rs; Test-Path ci.sh; Test-Path ci.bat
 Test-Path .github/workflows/ci.yml
@@ -76,4 +77,3 @@ Linux/macOS. Кожен рядок таблиці має містити PASS а�
 Повторний запуск лише читає файли та запускає перевірки, повторно використовуючи
 `target/` і `dist/`; він не редагує конфігурації, не виправляє помилки й не
 дублює артефакти поза стандартним результатом скрипта.
-

@@ -1,8 +1,8 @@
 ---
-description: "Створити мінімальний Rust Cargo-проєкт hello через skill project-scaffold"
-agent: "build-engineer"
+name: create-project
+description: Створити мінімальний Rust Cargo-проєкт hello через skill project-scaffold
+disable-model-invocation: true
 ---
-
 # create-project
 
 ## Призначення

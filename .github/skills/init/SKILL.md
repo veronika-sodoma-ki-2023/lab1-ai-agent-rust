@@ -1,8 +1,8 @@
 ---
-description: "Послідовно виконати повну ініціалізацію Rust-проєкту та завершити лише після CHECK PASSED"
-agent: "build-engineer"
+name: init
+description: Послідовно виконати повну ініціалізацію Rust-проєкту та завершити лише після CHECK PASSED
+disable-model-invocation: true
 ---
-
 # init
 
 ## Призначення
@@ -14,17 +14,21 @@ agent: "build-engineer"
 
 - Доступні `git`, `cargo` і `python` у `PATH`.
 - Виконання відбувається з кореня репозиторію.
-- Доступні prompt-файли `.github/prompts/git-init.prompt.md`,
-  `.github/prompts/create-project.prompt.md`,
-  `.github/prompts/create-build.prompt.md`,
-  `.github/prompts/create-actions.prompt.md` і
-  `.github/prompts/check.prompt.md`.
+- Доступні command-skills
+  `.github/skills/git-init/SKILL.md`,
+  `.github/skills/create-project/SKILL.md`,
+  `.github/skills/create-build/SKILL.md`,
+  `.github/skills/create-actions/SKILL.md` і
+  `.github/skills/check/SKILL.md`.
 
 ## Дії (покроково)
 
-1. Послідовно прочитати й виконати `git-init.prompt.md`,
-   `create-project.prompt.md`, `create-build.prompt.md`,
-   `create-actions.prompt.md`, `check.prompt.md`.
+1. Послідовно прочитати й виконати інструкції з
+   `.github/skills/git-init/SKILL.md`,
+   `.github/skills/create-project/SKILL.md`,
+   `.github/skills/create-build/SKILL.md`,
+   `.github/skills/create-actions/SKILL.md` і
+   `.github/skills/check/SKILL.md`.
 2. Після кожного з перших чотирьох кроків перевірити його очікувані файли;
    після `check` вимагати саме `CHECK PASSED`.
 3. При першій помилці зупинитися, вивести назву кроку, точну причину та код
@@ -49,14 +53,15 @@ python --version
 ```
 
 Після кожного кроку перевірити відповідний розділ «Очікувані файли» його
-prompt-файла. Фінальна перевірка — виконання `.github/prompts/check.prompt.md`
+command-skill. Фінальна перевірка — виконання
+`.github/skills/check/SKILL.md`
 і отримання `CHECK PASSED`.
 
 ## Повідомлення про помилку (точний текст і що робити)
 
 - `INIT FAILED: крок "<назва>" завершився помилкою: <причина>. Виправте причину окремою командою та повторіть init. Наступні кроки не виконувалися.`
 - `ПОМИЛКА: недоступна обов'язкова команда <git|cargo|python>. Встановіть її, додайте до PATH і повторіть init.`
-- `INIT FAILED: фінальний check не повернув CHECK PASSED. Перегляньте таблицю check, усуньте помилки відповідними prompt-командами й повторіть init.`
+- `INIT FAILED: фінальний check не повернув CHECK PASSED. Перегляньте таблицю check, усуньте помилки відповідними command-skills й повторіть init.`
 
 Не приховувати помилку, не пропускати кроки та не переходити до наступного
 prompt після невдачі.
@@ -64,6 +69,5 @@ prompt після невдачі.
 ## Повторний запуск (не руйнує створені файли і не дублює конфігурації)
 
 Повторний запуск виконує ті самі перевірки та не перезаписує правильні файли.
-Кожен дочірній prompt зберігає власні правила ідемпотентності, не дублює
+Кожен дочірній command-skill зберігає власні правила ідемпотентності, не дублює
 рядки конфігурації, а `check` лише читає проєкт.
-
