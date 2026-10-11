@@ -26,8 +26,16 @@ description: Готує локальні команди build-config і unit-tes
 
 Створити або перевірити:
 
-- `tests/basic_addition.rs` з тестом:
-  `#[test] #[allow(non_snake_case)] fn BasicAddition() { assert_eq!(hello::add(2, 3), 5); }`;
+- `tests/basic_addition.rs` з тестом, який має містити дослівно:
+  ```rust
+  use hello::add;
+
+  #[test]
+  #[allow(non_snake_case)]
+  fn BasicAddition() {
+      assert_eq!(add(2, 3), 5);
+  }
+  ```
 - `ci.sh` з `#!/usr/bin/env bash`, `set -euo pipefail`,
   `cargo build --release`, `cargo test --release`, `mkdir -p dist`,
   копіюванням `target/release/hello` до `dist/hello` і запуском `dist/hello`;

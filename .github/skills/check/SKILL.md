@@ -1,4 +1,4 @@
----
+﻿---
 name: check
 description: Перевірити повноту Rust-проєкту, CI та документації без виправлення помилок
 disable-model-invocation: true
@@ -27,18 +27,21 @@ disable-model-invocation: true
 3. Перевірити всі шість command-skills за шляхами
    `.github/skills/<command>/SKILL.md` і порядок команд у
    `.github/skills/init/SKILL.md`.
-4. Перевірити існування `Cargo.toml`, `src/lib.rs`, `src/main.rs`,
+4. Перевірити наявність `Cargo.toml`, `src/lib.rs`, `src/main.rs`,
    `tests/basic_addition.rs`, `ci.sh`, `ci.bat`, `.github/workflows/ci.yml`.
 5. Валідовати YAML, три ОС і відсутність прямого `cargo` у `ci.yml`.
 6. Виконати `cargo build --release` та `cargo test --release`, зафіксувати
-   наявність `BasicAddition ... ok`.
+   наявність `BasicAddition ... ok` і переконатися, що вивід не містить
+   `warning:`.
 7. Запустити CI-скрипт поточної ОС, перевірити `dist/hello(.exe)` і вивід
    `Hello, World!`.
 8. Перевірити, що `git ls-files target dist` порожній, а `git check-ignore
    target dist` спрацьовує.
-9. Виконати `git grep` для `ghp_`, `github_pat_`, `BEGIN PRIVATE KEY`,
-   `password=` і не вважати знайдені секрети успішним результатом.
-10. Вивести всі результати й завершити `CHECK PASSED` або
+9. Виконати `git status --short` і переконатися, що не показує непередбачені
+   файли `*.exe`, `*.msi`, `*.zip` поза `target/` і `dist/`.
+10. Виконати `git grep` для `ghp_`, `github_pat_`, `BEGIN PRIVATE KEY`,
+    `****** і не вважати знайдені секрети успішним результатом.
+11. Вивести всі результати й завершити `CHECK PASSED` або
     `CHECK FAILED: N помилок` із переліком.
 
 ## Очікувані файли
@@ -60,6 +63,7 @@ cargo build --release
 cargo test --release
 git ls-files target dist
 git check-ignore target dist
+git status --short
 git grep -n -e 'ghp_' -e 'github_pat_' -e 'BEGIN PRIVATE KEY' -e 'password='
 ```
 
@@ -68,9 +72,14 @@ Linux/macOS. Кожен рядок таблиці має містити PASS а�
 
 ## Повідомлення про помилку (точний текст і що робити)
 
-- `CHECK FAILED: N помилок` — після цього перелічити кожну перевірку зі статусом FAIL, командою та деталями; нічого автоматично не виправляти.
-- `ПОМИЛКА: check не змінює файли проєкту. Усуньте проблему окремою командою, потім повторіть check.`
-- `ПОМИЛКА: знайдено можливий секрет у git grep. Негайно видаліть секрет без публікації, перевірте історію й повторіть check.`
+- `CHECK FAILED: N помилок` — після цього перелічити кожну перевірку зі статусом FAIL,
+  командою та деталями; нічого автоматично не виправляти.
+- `ПОМИЛКА: check не змінює файли проєкту. Усуньте проблему окремою командою, потім
+  повторіть check.`
+- `ПОМИЛКА: знайдено можливий секрет у git grep. Негайно видаліть секрет без публікації,
+  перевірте історію й повторіть check.`
+- `ПОМИЛКА: git status --short показує сторонні файли поза target/ і dist/. Видаліть їх
+  або додайте правильне ігнорування, потім повторіть check.`
 
 ## Повторний запуск (не руйнує створені файли і не дублює конфігурації)
 
