@@ -18,14 +18,14 @@ Actions для трьох операційних систем. Агент `build
 
 ## Commands
 
-| Command | Передумови | Результат |
-|---|---|---|
-| `git-init` | Відкрито репозиторій або каталог проєкту | Перевірено Git-репозиторій і підготовлено базову конфігурацію без знищення наявних змін |
-| `create-project` | Виконано `git-init`, визначено назву `hello` і мову Rust | Створено структуру Cargo та код проєкту з тестом `BasicAddition` |
-| `create-build` | Виконано `create-project` | Створено `ci.sh` і `ci.bat`, що запускають збірку та тести |
-| `create-actions` | Виконано `create-build` | Створено workflow GitHub Actions із матрицею Windows, Linux і macOS |
-| `check` | Створено всі артефакти попередніх етапів | Перевірено збірку, тест, YAML, `.gitignore` та повернуто звіт `PASS` або `FAIL` |
-| `init` | Доступний агент у Copilot Chat | Послідовно запущено весь процес: `git-init` → `create-project` → `create-build` → `create-actions` → `check` |
+| Command | Шлях | Передумови | Результат |
+|---|---|---|---|
+| `git-init` | `.github/prompts/git-init.prompt.md` | Відкрито репозиторій або каталог проєкту | Перевірено Git-репозиторій і підготовлено базову конфігурацію без знищення наявних змін |
+| `create-project` | `.github/prompts/create-project.prompt.md` | Виконано `git-init`, визначено назву `hello` і мову Rust | Створено структуру Cargo та код проєкту |
+| `create-build` | `.github/prompts/create-build.prompt.md` | Виконано `create-project` | Створено тест `BasicAddition` і локальні CI-скрипти |
+| `create-actions` | `.github/prompts/create-actions.prompt.md` | Виконано `create-build` | Створено workflow GitHub Actions із матрицею Windows, Linux і macOS |
+| `check` | `.github/prompts/check.prompt.md` | Створено всі артефакти попередніх етапів | Перевірено збірку, тест, YAML, `.gitignore` та повернуто звіт `PASS` або `FAIL` |
+| `init` | `.github/prompts/init.prompt.md` | Доступний агент у Copilot Chat | Послідовно запущено весь процес: `git-init` → `create-project` → `create-build` → `create-actions` → `check` |
 
 ## Дані, що передаються між етапами
 
