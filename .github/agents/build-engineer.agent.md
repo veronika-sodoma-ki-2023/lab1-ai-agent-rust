@@ -33,12 +33,22 @@ tools: ['edit', 'search', 'runCommands', 'problems', 'changes']
 **Commands:** `git-init`, `create-project`, `create-build`, `create-actions`,
 `check`, `init`.
 
+### skill/command → шлях до файлу
+
+| Skill або command | Шлях до файлу |
+|---|---|
+| `project-scaffold` | `.github/skills/project-scaffold/SKILL.md` |
+| `build-and-test` | `.github/skills/build-and-test/SKILL.md` |
+| `github-actions` | `.github/skills/github-actions/SKILL.md` |
+| `git-init`, `create-project`, `create-build`, `create-actions`, `check`, `init` | `.github/prompts/*.prompt.md` |
+
 ## Правила роботи з файлами
 
 - Перед створенням перевіряти існування файлу.
 - Не перезаписувати наявні файли без потреби.
 - Не дублювати рядки в `.gitignore` і конфігураціях.
 - Усі зміни показувати користувачу.
+- Команда `check` лише читає файли та запускає перевірки; вона нічого не змінює.
 
 ## Заборонені дії
 
