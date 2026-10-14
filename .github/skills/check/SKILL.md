@@ -30,18 +30,25 @@ disable-model-invocation: true
 4. Перевірити наявність `Cargo.toml`, `src/lib.rs`, `src/main.rs`,
    `tests/basic_addition.rs`, `ci.sh`, `ci.bat`, `.github/workflows/ci.yml`.
 5. Валідовати YAML, три ОС і відсутність прямого `cargo` у `ci.yml`.
-6. Виконати `cargo build --release` та `cargo test --release`, зафіксувати
+   Перевірити, що `push` і `pull_request` мають `branches` з `develop` і
+   `master` (PyYAML читає ключ `on` як `True`).
+6. Перевірити, що в `ci.yml` використано лише
+   `actions/checkout@v4` і `actions/upload-artifact@v4`, а збірка викликається
+   лише через `bash ./ci.sh` та `ci.bat`.
+7. Перевірити, що вивід CI-скрипта містить усі заголовки:
+   `== Configure ==`, `== Build ==`, `== Test ==`, `== Package ==`.
+8. Виконати `cargo build --release` та `cargo test --release`, зафіксувати
    наявність `BasicAddition ... ok` і переконатися, що вивід не містить
    `warning:`.
-7. Запустити CI-скрипт поточної ОС, перевірити `dist/hello(.exe)` і вивід
+9. Запустити CI-скрипт поточної ОС, перевірити `dist/hello(.exe)` і вивід
    `Hello, World!`.
-8. Перевірити, що `git ls-files target dist` порожній, а `git check-ignore
+10. Перевірити, що `git ls-files target dist` порожній, а `git check-ignore
    target dist` спрацьовує.
-9. Виконати `git status --short` і переконатися, що не показує непередбачені
+11. Виконати `git status --short` і переконатися, що не показує непередбачені
    файли `*.exe`, `*.msi`, `*.zip` поза `target/` і `dist/`.
-10. Виконати `git grep` для `ghp_`, `github_pat_`, `BEGIN PRIVATE KEY`,
+12. Виконати `git grep` для `ghp_`, `github_pat_`, `BEGIN PRIVATE KEY`,
     `****** і не вважати знайдені секрети успішним результатом.
-11. Вивести всі результати й завершити `CHECK PASSED` або
+13. Вивести всі результати й завершити `CHECK PASSED` або
     `CHECK FAILED: N помилок` із переліком.
 
 ## Очікувані файли

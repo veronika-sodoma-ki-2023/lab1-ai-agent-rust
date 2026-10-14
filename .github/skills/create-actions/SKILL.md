@@ -36,6 +36,50 @@ disable-model-invocation: true
   трьох ОС та artifact `hello-${{ matrix.os }}` з `path: dist/`.
 - Наявні `ci.sh`, `ci.bat` і `.gitattributes` не змінені без потреби.
 
+Еталонний `.github/workflows/ci.yml` потрібно відтворювати дослівно:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure, build and test (Linux/macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: bash ./ci.sh
+      - name: Configure, build and test (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: ci.bat
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-${{ matrix.os }}
+          path: dist/
+          if-no-files-found: error
+```
+
+Заборонено додавати будь-які інші кроки або сторонні actions, крім
+`actions/checkout@v4` і `actions/upload-artifact@v4`. Зокрема, не додавати
+`dtolnay/rust-toolchain`; workflow має запускати збірку лише через `ci.sh` і
+`ci.bat`.
+
 ## Команди перевірки
 
 ```text
@@ -59,4 +103,3 @@ python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml', encoding
 
 Сумісний `ci.yml` не перезаписувати. Не дублювати triggers, ОС, jobs або
 кроки; при структурному конфлікті зупинитися й описати його.
-

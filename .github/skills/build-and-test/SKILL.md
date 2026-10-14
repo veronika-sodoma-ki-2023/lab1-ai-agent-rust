@@ -36,11 +36,17 @@ description: Готує локальні команди build-config і unit-tes
       assert_eq!(add(2, 3), 5);
   }
   ```
-- `ci.sh` з `#!/usr/bin/env bash`, `set -euo pipefail`,
-  `cargo build --release`, `cargo test --release`, `mkdir -p dist`,
-  копіюванням `target/release/hello` до `dist/hello` і запуском `dist/hello`;
-- `ci.bat`, який у Windows `cmd` виконує ті самі кроки для `hello.exe`, після
-  кожної команди перевіряє `if errorlevel 1 exit /b 1`;
+- `ci.sh` з `#!/usr/bin/env bash`, `set -euo pipefail` і чотирма етапами у
+  виводі: `== Configure ==`, `== Build ==`, `== Test ==`, `== Package ==`;
+- `ci.bat`, який у Windows `cmd` виконує ті самі чотири етапи, кожен із
+  відповідним заголовком у виводі;
+- етап `Configure` виконує `rustc --version`, `cargo --version`, `cargo fetch`;
+- етап `Build` виконує `cargo build --release`;
+- етап `Test` виконує `cargo test --release`;
+- етап `Package` створює `dist/`, копіює `hello`/`hello.exe` у `dist/` і
+  запускає скопійований виконуваний файл;
+- після кожної команди скрипт завершується з помилкою при збої; у `ci.bat`
+  для цього використовується `if errorlevel 1 exit /b %errorlevel%`.
 - каталог `dist/` і release-бінарний файл після успішного запуску скрипта.
 
 ## Кроки виконання
@@ -52,6 +58,9 @@ description: Готує локальні команди build-config і unit-tes
    немає; конфліктний наявний тест не перезаписувати.
 4. Запустити release-збірку, тест і відповідний платформний скрипт.
 5. Перевірити артефакт у `dist/` та повідомити точний код помилки при збої.
+
+Скрипти мають виконувати етапи саме в порядку Configure, Build, Test,
+Package; конфігураційним етапом не можна нехтувати.
 
 ## Перевірки (конкретні команди)
 
