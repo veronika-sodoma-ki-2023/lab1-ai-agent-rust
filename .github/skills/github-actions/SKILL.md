@@ -26,18 +26,49 @@ description: Описує workflow GitHub Actions для release CI через �
 
 ## Результати (точні файли та їх обов'язковий вміст)
 
-Створити `.github/workflows/ci.yml` з таким контрактом:
+Створити `.github/workflows/ci.yml` дослівно:
 
-- `name: CI`;
-- `on` містить `push` і `pull_request` з гілками `develop` та `master`, а
-  також `workflow_dispatch`;
-- одна job `build` зі `strategy.matrix.os`:
-  `[ubuntu-latest, windows-latest, macos-latest]` і `fail-fast: false`;
-- кроки `actions/checkout@v4`, запуск `bash ./ci.sh` на Linux/macOS і
-  `ci.bat` з `shell: cmd` на Windows;
-- `actions/upload-artifact@v4` з
-  `name: hello-${{ matrix.os }}` і `path: dist/`;
-- workflow не містить прямих викликів `cargo` і не містить секретів.
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure, build and test (Linux/macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: bash ./ci.sh
+      - name: Configure, build and test (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: ci.bat
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-${{ matrix.os }}
+          path: dist/
+          if-no-files-found: error
+```
+
+Workflow має містити лише `actions/checkout@v4` і
+`actions/upload-artifact@v4` як сторонні actions. Заборонено додавати будь-які
+інші кроки або сторонні actions, зокрема `dtolnay/rust-toolchain`; усі Cargo
+операції виконуються тільки через `ci.sh` або `ci.bat`.
 
 ## Кроки виконання
 

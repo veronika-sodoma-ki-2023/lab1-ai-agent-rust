@@ -41,9 +41,15 @@ disable-model-invocation: true
       assert_eq!(add(2, 3), 5);
   }
   ```
-- `ci.sh` з release build/test, створенням `dist/`, копіюванням `hello` і
-  запуском артефакту.
-- `ci.bat` з тими самими кроками для `hello.exe` та перевірками `errorlevel`.
+- `ci.sh` і `ci.bat` із чотирма етапами `== Configure ==`,
+  `== Build ==`, `== Test ==`, `== Package ==`.
+- `Configure`: `rustc --version`, `cargo --version`, `cargo fetch`.
+- `Build`: `cargo build --release`.
+- `Test`: `cargo test --release`.
+- `Package`: створення `dist/`, копіювання `hello`/`hello.exe` у `dist/` і
+  запуск скопійованого артефакту.
+- Після кожної команди має бути вихід із помилкою при збої; `ci.bat`
+  перевіряє кожну команду через `if errorlevel 1 exit /b %errorlevel%`.
 - `dist/hello` або `dist/hello.exe` після успішного запуску.
 
 ## Команди перевірки
@@ -80,4 +86,3 @@ bash ./ci.sh
 Сумісні `tests/basic_addition.rs`, `ci.sh` і `ci.bat` не перезаписувати.
 Каталог `dist/` можна повторно використовувати; замінювати лише власний
 успішно зібраний release-артефакт і не дублювати конфігураційні рядки.
-
