@@ -11,10 +11,6 @@
 із системою складання Cargo, тестом `BasicAddition`, скриптами `ci.sh` і
 `ci.bat`, а також GitHub Actions для Windows, Linux і macOS.
 
-На цьому етапі гілка `develop` містить лише агента та документацію. Файли
-Rust-проєкту, `Cargo.toml`, CI-скрипти та workflow створюються агентом під час
-виконання відповідних команд.
-
 ## Запуск агента
 
 1. Відкрити **Copilot Chat** у VS Code.
@@ -31,9 +27,21 @@ Rust-проєкту, `Cargo.toml`, CI-скрипти та workflow створю�
 lab1-ai-agent-rust/
 ├── README.md
 ├── .gitignore
+├── .gitattributes
+├── Cargo.toml
+├── Cargo.lock
+├── ci.sh
+├── ci.bat
+├── src/
+│   ├── lib.rs
+│   └── main.rs
+├── tests/
+│   └── basic_addition.rs
 ├── .github/
 │   ├── agents/
 │   │   └── build-engineer.agent.md
+│   ├── workflows/
+│   │   └── ci.yml
 │   └── skills/
 │       ├── git-init/
 │       │   └── SKILL.md
