@@ -1,0 +1,6 @@
+/target/
+/dist/
+*.pdb
+.env
+*.log
+.vscode/settings.json
